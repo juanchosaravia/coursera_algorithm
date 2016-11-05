@@ -16,6 +16,7 @@ public class PercolationStatsTest {
             double stddev = percolationStats.stddev();
             double confidenceLo = percolationStats.confidenceLo();
             double confidenceHi = percolationStats.confidenceHi();
+            System.out.println("mean - " + mean);
         }
     }
 

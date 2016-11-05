@@ -1,13 +1,15 @@
 package week1.assigment;
 
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+
 /**
  * @author juan.saravia
  */
 public class Percolation {
 
-    private final int[] id;
     private final int[] idOpen;
-    private final int[] weight;
+
+    private final WeightedQuickUnionUF weightedQuickUnionUF;
 
     private final int virtualP;
     private final int virtualQ;
@@ -15,37 +17,24 @@ public class Percolation {
 
     // create n-by-n grid, with all sites blocked
     public Percolation(int size) {
+        if (size <= 0) throw new IllegalArgumentException();
         this.size = size;
         int totalSize = size * size;
         int firstBottomPos = totalSize - size;
-        this.id = new int[totalSize + 2];
-        this.idOpen = new int[totalSize];
-        this.weight = new int[totalSize + 2];
-
-
-        // virtual top
+        idOpen = new int[totalSize];
         virtualP = totalSize;
-        this.id[virtualP] = virtualP;
-        this.weight[virtualP] = 2;
-        // virtual bottom
         virtualQ = totalSize + 1;
-        this.id[virtualQ] = virtualQ;
-        this.weight[virtualQ] = 2;
 
+        weightedQuickUnionUF = new WeightedQuickUnionUF(totalSize + 2);
         for (int i = 0; i < totalSize; i++) {
-            idOpen[i] = 0;
-            weight[i] = 1;
-
             if (i < size) {
-                // we are in the top face
-                id[i] = virtualP;
-            } else if (i >= firstBottomPos) {
-                // we are at the bottom face
-                id[i] = virtualQ;
-            } else {
-                // we are in any other face
-                id[i] = i;
+                // join virtual top
+                weightedQuickUnionUF.union(virtualP, i);
+
+                // join virtual bottom
+                weightedQuickUnionUF.union(virtualQ, firstBottomPos + i);
             }
+            idOpen[i] = 0;
         }
     }
 
@@ -105,37 +94,13 @@ public class Percolation {
         return connected(virtualP, virtualQ);
     }
 
-    // region Quick-Union methods
-
-    private int root(int i) {
-        while (id[i] != i) {
-            id[i] = id[id[i]];
-            i = id[i];
-        }
-        return i;
-    }
-
     private boolean connected(int p, int q) {
-        return root(p) == root(q);
+        return weightedQuickUnionUF.connected(p, q);
     }
 
     private void union(int p, int q) {
-        int pRoot = root(p);
-        int qRoot = root(q);
-        if (pRoot == qRoot) return;
-
-        int pWeight = weight[pRoot];
-        int qWeight = weight[qRoot];
-        if (pWeight <= qWeight) {
-            id[pRoot] = qRoot;
-            weight[qRoot] += pWeight;
-        } else {
-            id[qRoot] = pRoot;
-            weight[pRoot] += qWeight;
-        }
+        weightedQuickUnionUF.union(p, q);
     }
-
-    // endregion
 
     private int getPosition(int row, int col) {
         return (col - 1) + ((row - 1) * size);

@@ -29,7 +29,7 @@ public class MainClass {
     public static void main(String[] args) {
         int size;
         Percolation percolation;
-        try (BufferedReader br = new BufferedReader(new FileReader(JERRY))) {
+        try (BufferedReader br = new BufferedReader(new FileReader(INPUT_20))) {
             String line;
             if ((line = br.readLine()) != null) {
                 size = Integer.parseInt(line);

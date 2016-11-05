@@ -45,12 +45,12 @@ public class PercolationStats {
 
     // low  endpoint of 95% confidence interval
     public double confidenceLo() {
-        return mean() - (1.96D / Math.sqrt(trials));
+        return mean() - 1.96D * stddev() / Math.sqrt(trials);
     }
 
     // high endpoint of 95% confidence interval
     public double confidenceHi() {
-        return mean() + (1.96D / Math.sqrt(trials));
+        return mean() + 1.96D * stddev() / Math.sqrt(trials);
     }
 
     private double discoverThreshold(int n) {
