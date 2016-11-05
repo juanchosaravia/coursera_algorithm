@@ -1,12 +1,14 @@
-package edu.princeton.cs.algs4;
+package week1.assigment;
 
 /**
- * @author juancho
+ * @author juan.saravia
  */
 public class Percolation {
 
     private final int[] id;
     private final int[] idOpen;
+    private final int[] weight;
+
     private final int virtualP;
     private final int virtualQ;
     private final int size;
@@ -18,14 +20,21 @@ public class Percolation {
         int firstBottomPos = totalSize - size;
         this.id = new int[totalSize + 2];
         this.idOpen = new int[totalSize];
+        this.weight = new int[totalSize + 2];
 
+
+        // virtual top
         virtualP = totalSize;
         this.id[virtualP] = virtualP;
+        this.weight[virtualP] = 2;
+        // virtual bottom
         virtualQ = totalSize + 1;
         this.id[virtualQ] = virtualQ;
+        this.weight[virtualQ] = 2;
 
         for (int i = 0; i < totalSize; i++) {
             idOpen[i] = 0;
+            weight[i] = 1;
 
             if (i < size) {
                 // we are in the top face
@@ -48,6 +57,10 @@ public class Percolation {
         int position = getPosition(row, col);
         if (idOpen[position] == 1) return;
         idOpen[position] = 1;
+        if (size == 1) {
+            union(virtualP, virtualQ);
+            return;
+        }
 
         // connect with neighbourhood
         if (isLeftOpen(position, col)) {
@@ -82,7 +95,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         check(row, col);
         int position = getPosition(row, col);
-        return idOpen[position] == 1 && connected(virtualP, position) && connected(virtualQ, position);
+        return idOpen[position] == 1 && connected(virtualP, position);
     }
 
     /**
@@ -92,10 +105,13 @@ public class Percolation {
         return connected(virtualP, virtualQ);
     }
 
-    // region QuickUnion methods
+    // region Quick-Union methods
 
     private int root(int i) {
-        while (id[i] != i) i = id[i];
+        while (id[i] != i) {
+            id[i] = id[id[i]];
+            i = id[i];
+        }
         return i;
     }
 
@@ -106,7 +122,17 @@ public class Percolation {
     private void union(int p, int q) {
         int pRoot = root(p);
         int qRoot = root(q);
-        id[pRoot] = qRoot;
+        if (pRoot == qRoot) return;
+
+        int pWeight = weight[pRoot];
+        int qWeight = weight[qRoot];
+        if (pWeight <= qWeight) {
+            id[pRoot] = qRoot;
+            weight[qRoot] += pWeight;
+        } else {
+            id[qRoot] = pRoot;
+            weight[pRoot] += qWeight;
+        }
     }
 
     // endregion

@@ -1,7 +1,6 @@
 package week1;
 
 import org.junit.Test;
-import week1.*;
 
 import static org.junit.Assert.*;
 
@@ -32,24 +31,6 @@ public class QuickTest {
     public void testQuickUnionWeightedCompression() {
         Quick quick = new QuickUnionWeightedCompression(10);
         assertQuick(quick);
-    }
-
-    public static class SocialNetwork {
-        private final int[] id;
-        private final int[] ts; // timestamps
-
-        public SocialNetwork(int friendsCount) {
-            id = new int[friendsCount];
-            ts = new int[friendsCount];
-        }
-
-        private int root(int i) {
-            while (id[i] != i) {
-                id[i] = id[id[i]];
-                i = id[i];
-            }
-            return i;
-        }
     }
 
     private void assertQuick(Quick qf) {

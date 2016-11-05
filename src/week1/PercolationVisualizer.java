@@ -15,7 +15,11 @@
  *  with with site (1, 1) in the upper left-hand corner.
  *
  ******************************************************************************/
-package edu.princeton.cs.algs4;
+package week1;
+
+import edu.princeton.cs.algs4.In;
+import week1.assigment.Percolation;
+import edu.princeton.cs.algs4.StdDraw;
 
 import java.awt.Font;
 

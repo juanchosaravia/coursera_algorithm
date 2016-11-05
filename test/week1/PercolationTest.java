@@ -2,12 +2,50 @@ package week1;
 
 import org.junit.Assert;
 import org.junit.Test;
-import edu.princeton.cs.algs4.Percolation;
+import week1.assigment.Percolation;
+
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * @author juancho
  */
 public class PercolationTest {
+
+    private static final String FILE_PATH = "./resources/";
+    private static final Pattern pattern = Pattern.compile("[ ]*(\\d+)+[ ]*(\\d+)+");
+
+    @Test
+    public void input1SuccessPercolationTest() {
+        Percolation percolation = new Percolation(1);
+        percolation.open(1, 1);
+
+        Assert.assertTrue(percolation.percolates());
+        Assert.assertTrue(percolation.isOpen(1, 1));
+    }
+
+    @Test
+    public void input2NoPercolationTest() {
+        Percolation percolation = new Percolation(2);
+        percolation.open(1, 1);
+        percolation.open(2, 2);
+
+        Assert.assertFalse(percolation.percolates());
+        Assert.assertTrue(percolation.isOpen(1, 1));
+        Assert.assertTrue(percolation.isOpen(2, 2));
+    }
+
+    @Test
+    public void input20Test() throws IOException {
+        Percolation percolation = loadPercolationFromFile("input20.txt");
+
+        Assert.assertTrue(percolation.percolates());
+        Assert.assertFalse(percolation.isFull(18, 1));
+        Assert.assertTrue(percolation.isOpen(18, 1));
+    }
 
     @Test
     public void simpleSuccessPercolationTest() {
@@ -70,5 +108,25 @@ public class PercolationTest {
         percolation.open(2, 3);
 
         Assert.assertFalse(percolation.percolates());
+    }
+
+    private Percolation loadPercolationFromFile(String fileName) throws IOException {
+        int size;
+        Percolation percolation = null;
+        try (BufferedReader br = new BufferedReader(new FileReader(FILE_PATH + fileName))) {
+            String line;
+            if ((line = br.readLine()) != null) {
+                size = Integer.parseInt(line);
+                percolation = new Percolation(size);
+                while ((line = br.readLine()) != null) {
+                    // process the line.
+                    Matcher matcher = pattern.matcher(line);
+                    if (matcher.matches() && matcher.groupCount() > 1) {
+                        percolation.open(Integer.parseInt(matcher.group(1)), Integer.parseInt(matcher.group(2)));
+                    }
+                }
+            }
+        }
+        return percolation;
     }
 }

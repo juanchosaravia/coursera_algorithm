@@ -1,7 +1,6 @@
 package week1;
 
-import edu.princeton.cs.algs4.Percolation;
-import edu.princeton.cs.algs4.PercolationVisualizer;
+import week1.assigment.Percolation;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -18,9 +17,12 @@ import java.util.regex.Pattern;
  */
 public class MainClass {
 
-    private static final String JERRY = "./resources/jerry47.txt";
-    private static final String HEART = "./resources/heart25.txt";
-    private static final String GREETING = "./resources/greeting57.txt";
+    private static final String FILE_PATH = "./resources/";
+
+    private static final String JERRY = FILE_PATH + "jerry47.txt";
+    private static final String HEART = FILE_PATH + "heart25.txt";
+    private static final String GREETING = FILE_PATH + "greeting57.txt";
+    private static final String INPUT_20 = FILE_PATH + "input20.txt";
 
     private static Pattern pattern = Pattern.compile("[ ]*(\\d+)+[ ]*(\\d+)+");
 
