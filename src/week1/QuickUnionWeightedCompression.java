@@ -1,12 +1,16 @@
+package week1;
+
 /**
+ * week1.Quick Union Weighted with Path Compression algorithm.
+ *
  * @author juancho
  */
-public class QuickUnionWeighted implements Quick {
+public class QuickUnionWeightedCompression implements Quick {
 
     private final int[] id;
     private final int[] weight;
 
-    public QuickUnionWeighted(int size) {
+    public QuickUnionWeightedCompression(int size) {
         weight = new int[size];
         id = new int[size];
         for (int i = 0; i < size; i++) {
@@ -16,7 +20,10 @@ public class QuickUnionWeighted implements Quick {
     }
 
     private int root(int i) {
-        while (id[i] != i) i = id[i];
+        while (id[i] != i) {
+            id[i] = id[id[i]];
+            i = id[i];
+        }
         return i;
     }
 
