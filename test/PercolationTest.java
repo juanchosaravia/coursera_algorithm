@@ -1,6 +1,6 @@
 import org.junit.Assert;
 import org.junit.Test;
-import week1.assigment.Percolation;
+import edu.princeton.cs.algs4.Percolation;
 
 /**
  * @author juancho

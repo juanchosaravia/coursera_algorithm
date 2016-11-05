@@ -1,4 +1,4 @@
-package week1.assigment;
+package edu.princeton.cs.algs4;
 
 /**
  * @author juancho
@@ -82,7 +82,7 @@ public class Percolation {
     public boolean isFull(int row, int col) {
         check(row, col);
         int position = getPosition(row, col);
-        return connected(virtualP, position) && connected(virtualQ, position);
+        return idOpen[position] == 1 && connected(virtualP, position) && connected(virtualQ, position);
     }
 
     /**
