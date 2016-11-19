@@ -3,6 +3,10 @@ package week2;
 import static org.junit.Assert.*;
 
 import org.junit.Test;
+import week2.stack.FixedCapacityStackOfStrings;
+import week2.stack.LinkedStackOfStrings;
+import week2.stack.ResizingArrayStackOfStrings;
+import week2.stack.Stack;
 
 /**
  * @author juancho
