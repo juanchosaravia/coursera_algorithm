@@ -10,6 +10,7 @@ import week2.stack.Stack;
 import week2.stack.generics.GenericLinkedStack;
 import week2.stack.generics.GenericResizingArrayStack;
 import week2.stack.generics.GenericStack;
+import week2.stack.iterator.GenericResizingArrayStackWithIterator;
 
 /**
  * @author juancho
@@ -39,6 +40,20 @@ public class StackTest {
     @Test
     public void genericResizingArrayStack() {
         assertGenericStack(new GenericResizingArrayStack<String>());
+    }
+
+    @Test
+    public void stackIterator() {
+        GenericResizingArrayStackWithIterator<Integer> stack = new GenericResizingArrayStackWithIterator<>();
+        stack.push(1);
+        stack.push(2);
+        stack.push(3);
+
+        Integer val = 3;
+        for (Integer integer : stack) {
+            assertEquals(val, integer);
+            val--;
+        }
     }
 
     private void assertStack(Stack stack) {
