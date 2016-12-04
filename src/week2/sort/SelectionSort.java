@@ -6,9 +6,10 @@ package week2.sort;
 public class SelectionSort {
 
     public static void sort(Comparable[] a) {
-        for (int i = 0; i < a.length; i++) {
+        int N = a.length;
+        for (int i = 0; i < N; i++) {
             int min = i;
-            for (int j = i; j < a.length; j++) {
+            for (int j = i + 1; j < N; j++) {
                 if (isLess(a[j], a[min])) {
                     min = j;
                 }
